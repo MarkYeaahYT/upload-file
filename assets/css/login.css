@@ -1,0 +1,49 @@
+body{
+    background:linear-gradient(#01003c, #560972);
+    background-repeat: no-repeat;
+    height: 100%;
+    color: white;
+    font-family: Verdana;
+}
+.root{
+    background: linear-gradient(ro right, black, purple);
+    height: 400px;
+    width: 400px;
+    border: 2px solid;
+    border-left-color:  lightblue;
+    border-right-color: green;
+    border-top-color:  purple;
+    border-bottom-color:  cyan;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.sub-root{
+    height: 400px;
+    width: 400px;
+    background-color: black;
+    opacity: 0.7;
+    box-shadow: 0px 0px 15px 5px cyan;
+    
+}
+.sub-sub{
+    max-height: 200px;
+    max-width: 200px;
+    margin: auto;
+    padding-top: 80px;
+    
+}
+button, input[type="submit"]{
+    padding: 10px 60px;
+    background: linear-gradient(to left, #1cd41c, #0ae690);
+    border: 1px solid aqua;
+    border-radius: 20px;
+    font-size: 18px;
+}
+input{
+    border: 1px solid aqua;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
