@@ -254,7 +254,7 @@ $config['log_path'] = '';
 | Note: Leaving it blank will default to 'php'.
 |
 */
-$config['log_file_extension'] = '';
+$config['log_file_extension'] = 'log';
 
 /*
 |--------------------------------------------------------------------------
@@ -527,3 +527,10 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+
+/**
+ * My
+ */
+$config['allowed_types'] = 'gif|jpg|png|zip|rar|exe|docx|pptx|sql|xlsx|cdr|tar.gz|tar.xz|txt';
+

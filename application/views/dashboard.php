@@ -14,10 +14,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="overlay"></div>
 </div>
 
-<!-- Popper.JS -->
-<script src="<?php echo base_url('assets/bootstrap/js/popper.min.js'); ?>"></script>
-<!-- jQuery Custom Scroller CDN -->
-<script src="<?php echo base_url('assets/bootstrap/js/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
 <style>
     @import url(<?php echo base_url('assets/css/mydashboard.css') ?>);
     #content{

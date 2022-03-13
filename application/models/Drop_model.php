@@ -18,8 +18,15 @@ class Drop_model extends CI_Model{
     public function show()
     {
         # code...
-        $this->db->order_by("id", "ASC");
+        $this->db->order_by("id", "DESC");
         $query = $this->db->get('userupload');
+
+        $no = 0;
+        foreach($query->result() as $row){
+            $no++;
+            $row->no = $no;
+        }
+
         return $query->result();
     }
 
@@ -32,8 +39,12 @@ class Drop_model extends CI_Model{
          */
         # code..
         $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|png|zip|rar|exe|docx|pptx|sql|xlsx|cdr|tar.gz|tar.xz|txt';
+        $config['allowed_types'] = $this->config->item('allowed_types');
         $config['max_size'] = 0; // 0 is not set
+
+        if(!is_dir($config['upload_path'])){
+            mkdir($config['upload_path'], 0777, true);
+        }
 
         $this->load->library('upload', $config);
 

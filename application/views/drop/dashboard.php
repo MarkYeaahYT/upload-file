@@ -4,7 +4,7 @@
     </div>
     <div class="row p-3">
         <div class="fordropzone m-auto w-50 ">
-            <form action="<?php echo site_url('drop/upload') ?>" class="dropzone rot">
+            <form class="dropzone rot" onmousedown="party.confetti(this)">
                 <div class="d-flex">
                     <img class="m-auto" src="<?php echo base_url('assets/icon/upload.png'); ?>" width="25" height="25" alt="" srcset="">
                 </div>
@@ -22,7 +22,7 @@
                 <small class="form-text text-muted">note for this file</small>
             </div>
             <div class="form-group">
-                <button id="gass" type="button" class="btn btn-success">Gass</button>
+                <button onmousedown="party.confetti(this)" id="gass" type="button" class="btn btn-success">Gass</button>
             </div>
         </div>
     </div>
@@ -60,6 +60,7 @@
 </div>
 
 <script type="text/javascript">
+Dropzone.autoDiscover = false;
 $(document).ready(function () {
     var table = $('#mytable').DataTable({
         ajax: {
@@ -67,7 +68,7 @@ $(document).ready(function () {
             dataSrc: ''
         },
         columns: [
-            {data: 'id'},
+            {data: 'no'},
             {render: function (data, type, row) {  
                 return '<a href="/uploads/'+row.filename+'">'+row.filename+'</a>';
             }},
@@ -96,23 +97,94 @@ $(document).ready(function () {
             {data: 'note'}
         ]
     });
-    table.on('order.dt search.dt', function(){
-         table.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) { 
-             cell.innerHTML = i + 1;
-          });
-    })
-
-    table.order([4, "desc"]).draw();
     /**
         handle Message Success
      */
+
+     $('form.dropzone').dropzone({
+         url: '<?php echo site_url('drop/upload') ?>',
+         success: (file, response) => {
+            table.ajax.reload()
+         }
+     })
+
+     /**
+	 * Get information about device
+	 */
+	function getOS() {
+		var userAgent = window.navigator.userAgent,
+			platform = window.navigator.platform,
+			macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+			windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+			iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+			os = null;
+	  
+		if (macosPlatforms.indexOf(platform) !== -1) {
+			  os = 'Mac OS';
+		} else if (iosPlatforms.indexOf(platform) !== -1) {
+			  os = 'iOS';
+		} else if (windowsPlatforms.indexOf(platform) !== -1) {
+			  os = 'Windows';
+		} else if (/Android/.test(userAgent)) {
+			  os = 'Android';
+		} else if (!os && /Linux/.test(platform)) {
+			  os = 'Linux';
+		}
+	  
+		return os;
+	}
+
+    /**
+	 * Get Cookie
+	 */
+	function check_cookie_name(name) 
+    {
+      var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      if (match) {
+		return match[2];
+      }
+      else{
+           return false;
+      }
+   }
+
+	/**
+	 * Send Note to Server and set OS
+	 */
+	$("#gass").click(function (e) { 
+		e.preventDefault();
+		var id = check_cookie_name("MarkYeaahYT");
+		var note = $("#note").val();
+		var os = getOS();
+
+		$.ajax({
+			type: "POST",
+			url: "/drop/save",
+			data: {
+				id: id,
+				note: note,
+				os: os
+			},
+			dataType: "JSON",
+			success: function (response) {
+				$(".success").show();			
+			}
+		});
+        
+	});
+
+	/**
+	 * Hide message Success
+	 */
+	$(".success").click(function (e) { 
+		e.preventDefault();
+		$(this).hide();
+	});
     
 });
 $(".success").hide();
 
 </script>
-<script src="<?php echo base_url("assets/js/Drop.js"); ?>"></script>
-
 <style>
     .fordropzone{
         border-style: dashed;

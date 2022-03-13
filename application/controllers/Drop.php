@@ -37,6 +37,14 @@ class Drop extends CI_Controller{
         echo json_encode($data);
     }
 
+    public function debug()
+    {
+        $config = $this->config->item('allowed_types');
+
+        dd($config);
+
+    }
+
 }
 
 ?>
